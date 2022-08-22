@@ -15,12 +15,15 @@ typedef struct s_parsed {
 	float	time_to_eat;
 	float	time_to_sleep;
 	int		philo_eat;
+	int		number;
+	int		*tab_fork;
 }			t_parsed;
 
 /*			TIME			*/
-void	print_time(void);
+long int	get_time(void);
+void		ft_usleep(long	int time_in_ms);
 
 /*			PARSING			*/
-int		entry_parse(char **argv, int argc, t_parsed *entry);
+int			entry_parse(char **argv, int argc, t_parsed *entry);
 
 #endif

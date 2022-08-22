@@ -1,33 +1,23 @@
 
 #include "../includes/philo.h"
 
-float	time_diff(struct timeval *start, struct timeval *end)
+long int	get_time(void)
 {
-	return (((end->tv_sec - start->tv_sec) + 1e-6
-			* (end->tv_usec - start->tv_usec)) * 1000);
+	struct timeval	current_time;
+
+	if (gettimeofday(&current_time, NULL) == -1)
+	{
+		printf("Gettimeofday crashed !\n");
+		return (-1);
+	}
+	return (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 }
 
-/*void	print_time(void)
+void	ft_usleep(long	int time_in_ms)
 {
-	int	i;
-	struct timeval start;
-	struct timeval mid;
-	struct timeval end;
+	long int	start_time;
 
-	i = 1;
-	gettimeofday(&start, NULL);
-	while (i)
-	{
-		gettimeofday(&mid, NULL);
-		if (time_diff(&start, &mid) > 0.005)
-			break;
-	}
-	while (i)
-	{
-		gettimeofday(&mid, NULL);
-		if (time_diff(&start, &mid) > 10000)
-			break;
-	}
-	gettimeofday(&end, NULL);
-	printf("Time spent : %f milli seconds", time_diff(&start, &end));
-}*/
+	start_time = get_time();
+	while ((get_time() - start_time) < time_in_ms)
+		usleep(time_in_ms / 10);
+}

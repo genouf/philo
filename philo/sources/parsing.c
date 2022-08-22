@@ -32,7 +32,10 @@ static	int	check_integer(char *str)
 	while (str[i] == '0')
 		i++;
 	if (!(str[i] >= '0' && str[i] <= '9'))
+	{
+		printf("Bad argument !\n");
 		return (1);
+	}
 	else
 		return (0);
 }
@@ -44,6 +47,28 @@ static void	init_struct(t_parsed *entry)
 	entry->time_to_eat = 0;
 	entry->time_to_sleep = 0;
 	entry->philo_eat = 0;
+	entry->number = 0;
+	entry->tab_fork = NULL;
+}
+
+static int	*init_tab_fork(int philo_num)
+{
+	int	*tab_fork;
+	int	i;
+
+	tab_fork = (int *)malloc(sizeof(int) * philo_num);
+	if (tab_fork == NULL)
+	{
+		printf("Malloc failed !\n");
+		return (NULL);
+	}
+	i = 0;
+	while (i < philo_num)
+	{
+		tab_fork[i] = 1;
+		i++;
+	}
+	return (tab_fork);
 }
 
 int	entry_parse(char **argv, int argc, t_parsed *entry)
@@ -66,5 +91,8 @@ int	entry_parse(char **argv, int argc, t_parsed *entry)
 		entry->philo_eat = ft_atoi(argv[5]);
 	else
 		entry->philo_eat = -1;
+	entry->tab_fork = init_tab_fork(entry->philo_num);
+	if (entry->tab_fork == NULL)
+		return (1);
 	return (0);
 }
