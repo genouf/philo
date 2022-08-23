@@ -78,7 +78,7 @@ int	entry_parse(char **argv, int argc, t_parsed *entry)
 	i = 1;
 	while (i < argc)
 	{
-		if (check_integer(argv[i]))
+		if (check_integer(argv[i]) == 1)
 			return (1);
 		i++;
 	}

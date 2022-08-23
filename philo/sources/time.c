@@ -13,11 +13,28 @@ long int	get_time(void)
 	return (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 }
 
-void	ft_usleep(long	int time_in_ms)
+void	ft_usleep(long int time_in_ms)
 {
 	long int	start_time;
 
 	start_time = get_time();
 	while ((get_time() - start_time) < time_in_ms)
 		usleep(time_in_ms / 10);
+}
+
+int	check_death(long int start, long int time_to_die)
+{
+	long int	now;
+
+	now = get_time();
+	if (now - start >= time_to_die)
+		return (1);
+	else
+		return (0);
+}
+
+float	time_diff(struct timeval *start, struct timeval *end)
+{
+	return (((end->tv_sec - start->tv_sec) + 1e-6
+			* (end->tv_usec - start->tv_usec)) * 1000);
 }
