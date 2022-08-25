@@ -42,6 +42,7 @@ void	*core_thread(void *arg)
 
 	start = get_time();
 	entry = (t_parsed *)arg;
+	printf("la\n");
 	while (1 && entry->philo_eat != 0)
 	{
 		if (entry->philo_num == entry->number)
@@ -63,7 +64,7 @@ void	*core_thread(void *arg)
 int	main(int argc, char **argv)
 {
 	t_parsed	entry;
-	pthread_t	t1;
+	pthread_t	*philo_tab;
 	struct timeval big_start;
 	struct timeval big_end;
 
@@ -78,23 +79,12 @@ int	main(int argc, char **argv)
 	if (entry_parse(argv, argc, &entry) == 1)
 		return (-1);
 
-	/* INIT du nombre du philo */
-	entry.number = 2;
-
 	/* PARTIE DES THREADS */
-	if (pthread_create(&t1, NULL, &core_thread, &entry) != 0)
-	{
-		printf("Failed to create thread !\n");
-		return (1);
-	}
-	if (pthread_join(t1, NULL) != 0)
-	{
-		printf("Failed to join thread !\n");
-		return (1);
-	}
+	philo_tab = init_philo(entry);
+	end_philo(philo_tab, &entry);
 
 	gettimeofday(&big_end, NULL);
-	printf("TOTAL TIME : %f", time_diff(&big_start, &big_end));
+	printf("TOTAL TIME : %f\n", time_diff(&big_start, &big_end));
 
 	return (0);
 }

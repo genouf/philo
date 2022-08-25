@@ -1,7 +1,9 @@
 
-SRCS = 	sources/philo.c		\
-		sources/time.c		\
-		sources/parsing.c	\
+SRCS = 	sources/philo.c			\
+		sources/time.c			\
+		sources/parsing.c		\
+		sources/init_philo.c	\
+		sources/utils.c			\
 
 OBJS = ${SRCS:.c=.o}
 
