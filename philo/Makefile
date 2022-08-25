@@ -1,7 +1,7 @@
 
 SRCS = 	sources/philo.c			\
 		sources/time.c			\
-		sources/parsing.c		\
+		sources/entry.c		\
 		sources/init_philo.c	\
 		sources/utils.c			\
 

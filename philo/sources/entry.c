@@ -47,16 +47,16 @@ static void	init_struct(t_parsed *entry)
 	entry->time_to_eat = 0;
 	entry->time_to_sleep = 0;
 	entry->philo_eat = 0;
-	entry->tab_fork = NULL;
+	entry->fork_tab = NULL;
 }
 
-static int	*init_tab_fork(int philo_num)
+static pthread_mutex_t	*init_fork_tab(int philo_num)
 {
-	int	*tab_fork;
-	int	i;
+	pthread_mutex_t	*fork_tab;
+	int				i;
 
-	tab_fork = (int *)malloc(sizeof(int) * philo_num);
-	if (tab_fork == NULL)
+	fork_tab = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * philo_num);
+	if (fork_tab == NULL)
 	{
 		printf("Malloc failed !\n");
 		return (NULL);
@@ -64,10 +64,10 @@ static int	*init_tab_fork(int philo_num)
 	i = 0;
 	while (i < philo_num)
 	{
-		tab_fork[i] = 1;
+		pthread_mutex_init(fork_tab + i, NULL);
 		i++;
 	}
-	return (tab_fork);
+	return (fork_tab);
 }
 
 int	entry_parse(char **argv, int argc, t_parsed *entry)
@@ -90,8 +90,8 @@ int	entry_parse(char **argv, int argc, t_parsed *entry)
 		entry->philo_eat = ft_atoi(argv[5]);
 	else
 		entry->philo_eat = -1;
-	entry->tab_fork = init_tab_fork(entry->philo_num);
-	if (entry->tab_fork == NULL)
+	entry->fork_tab = init_fork_tab(entry->philo_num);
+	if (entry->fork_tab == NULL)
 		return (1);
 	return (0);
 }

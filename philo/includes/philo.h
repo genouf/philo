@@ -10,14 +10,20 @@
 # include <sys/time.h>
 
 typedef struct s_parsed {
-	int			philo_num;
-	long int	time_to_die;
-	long int	time_to_eat;
-	long int	time_to_sleep;
-	int			philo_eat;
-	int			number;
-	int			*tab_fork;
+	int					philo_num;
+	long int			time_to_die;
+	long int			time_to_eat;
+	long int			time_to_sleep;
+	int					philo_eat;
+	pthread_mutex_t		*fork_tab;
 }			t_parsed;
+
+typedef struct s_philo {
+	int	id;
+	pthread_mutex_t *left_fork;
+	pthread_mutex_t *right_fork;
+	t_parsed		*entry;
+}			t_philo;
 
 /*			PHILO			*/
 void		*core_thread(void *arg);
@@ -28,7 +34,7 @@ void		ft_usleep(long int time_in_ms)  ;
 int			check_death(long int start, long int time_to_die);
 float		time_diff(struct timeval *start, struct timeval *end);
 
-/*			PARSING			*/
+/*			ENTRY			*/
 int			entry_parse(char **argv, int argc, t_parsed *entry);
 
 /*			INIT_PHILO		*/

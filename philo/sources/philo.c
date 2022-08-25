@@ -1,7 +1,7 @@
 
 #include "../includes/philo.h"
 
-static int	philo_routine(t_parsed *entry, int *f_fork, int *s_fork, long int start)
+/*static int	philo_routine(t_parsed *entry, int *f_fork, int *s_fork, long int start)
 {	
 	int			i;
 
@@ -59,16 +59,18 @@ void	*core_thread(void *arg)
 			entry->philo_eat--;
 	}
 	return (NULL);
-}
+}*/
 
 int	main(int argc, char **argv)
 {
 	t_parsed	entry;
 	pthread_t	*philo_tab;
+
+	/* -------------------------------- */
 	struct timeval big_start;
 	struct timeval big_end;
-
 	gettimeofday(&big_start, NULL);
+	/* -------------------------------- */
 
 	/* PARTIE DU PARSING */
 	if (argc != 5 && argc != 6)
@@ -77,14 +79,16 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (entry_parse(argv, argc, &entry) == 1)
-		return (-1);
+		return (1);
 
 	/* PARTIE DES THREADS */
 	philo_tab = init_philo(entry);
 	end_philo(philo_tab, &entry);
 
+	/* -------------------------------- */
 	gettimeofday(&big_end, NULL);
 	printf("TOTAL TIME : %f\n", time_diff(&big_start, &big_end));
+	/* -------------------------------- */
 
 	return (0);
 }
