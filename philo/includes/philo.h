@@ -9,6 +9,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 
+/*			STRUCT			*/
 typedef struct s_parsed {
 	int					philo_num;
 	long int			time_to_die;
@@ -38,7 +39,7 @@ float		time_diff(struct timeval *start, struct timeval *end);
 int			entry_parse(char **argv, int argc, t_parsed *entry);
 
 /*			INIT_PHILO		*/
-pthread_t 	*init_philo(t_parsed entry);
+pthread_t 	*init_philo(t_parsed *entry);
 int			end_philo(pthread_t *philo_tab, t_parsed *entry);
 
 #endif
