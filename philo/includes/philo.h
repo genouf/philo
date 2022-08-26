@@ -50,4 +50,8 @@ int			entry_parse(char **argv, int argc, t_parsed *entry);
 int			init_philo(t_group_philo *philos, t_parsed *entry);
 int			end_philo(t_group_philo *philos, t_parsed *entry);
 
+/*			SECURITY		*/
+void		free_mutex_tab(t_parsed *entry);
+void		emergency_join(pthread_t *philo_thread, int i);
+
 #endif

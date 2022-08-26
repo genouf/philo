@@ -8,14 +8,14 @@ static int	malloc_philo(t_group_philo *philos, t_parsed *entry)
 	if (philos->philo_thread == NULL)
 	{
 		printf("Malloc failed !\n");
-		free(entry->fork_tab);
+		free_mutex_tab(entry);
 		return (1);
 	}
 	philos->philo = (t_philo *)malloc(sizeof(t_philo) * entry->philo_num);
 	if (philos->philo_thread == NULL)
 	{
 		printf("Malloc failed !\n");
-		free(entry->fork_tab);
+		free_mutex_tab(entry);
 		free(philos->philo_thread);
 		return (1);
 	}
@@ -47,9 +47,9 @@ int	init_philo(t_group_philo *philos, t_parsed *entry)
 				&philos->philo[i]) != 0)
 		{
 			printf("Failed to create thread !\n");
-			free(philos->philo_thread);
+			emergency_join(philos->philo_thread, i);
 			free(philos->philo);
-			free(entry->fork_tab);
+			free_mutex_tab(entry);
 			return (1);
 		}
 		i++;
@@ -68,20 +68,14 @@ int	end_philo(t_group_philo *philos, t_parsed *entry)
 		{
 			printf("Failed to join thread !\n");
 			free(philos->philo_thread);
-			free(entry->fork_tab);
+			free_mutex_tab(entry);
 			free(philos->philo);
 			return (1);
 		}
 		i++;
 	}
-	i = 0;
-	while (i < entry->philo_num)
-	{
-		pthread_mutex_destroy(entry->fork_tab + i);
-		i++;
-	}
+	free_mutex_tab(entry);
 	free(philos->philo_thread);
-	free(entry->fork_tab);
 	free(philos->philo);
 	return (0);
 }
