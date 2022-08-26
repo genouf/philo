@@ -3,7 +3,8 @@
 
 static int	malloc_philo(t_group_philo *philos, t_parsed *entry)
 {
-	philos->philo_thread = (pthread_t *)malloc(sizeof(pthread_t) * entry->philo_num);
+	philos->philo_thread = (pthread_t *)malloc(sizeof(pthread_t)
+			* entry->philo_num);
 	if (philos->philo_thread == NULL)
 	{
 		printf("Malloc failed !\n");
@@ -42,7 +43,8 @@ int	init_philo(t_group_philo *philos, t_parsed *entry)
 	while (i < entry->philo_num)
 	{
 		init_struct_philo(&philos->philo[i], entry, i);
-		if (pthread_create(philos->philo_thread + i, NULL, &core, &philos->philo[i]) != 0)
+		if (pthread_create(philos->philo_thread + i, NULL, &core,
+				&philos->philo[i]) != 0)
 		{
 			printf("Failed to create thread !\n");
 			free(philos->philo_thread);
