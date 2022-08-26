@@ -1,52 +1,73 @@
 
 #include "../includes/philo.h"
 
-pthread_t *init_philo(t_parsed *entry)
+static int	malloc_philo(t_group_philo *philos, t_parsed *entry)
 {
-	pthread_t	*philo_tab;
-	t_philo		philo;
-	int		i;
-
-	philo_tab = (pthread_t *)malloc(sizeof(pthread_t) * entry->philo_num);
-	if (philo_tab == NULL)
+	philos->philo_thread = (pthread_t *)malloc(sizeof(pthread_t) * entry->philo_num);
+	if (philos->philo_thread == NULL)
 	{
 		printf("Malloc failed !\n");
 		free(entry->fork_tab);
-		return (NULL);
+		return (1);
 	}
+	philos->philo = (t_philo *)malloc(sizeof(t_philo) * entry->philo_num);
+	if (philos->philo_thread == NULL)
+	{
+		printf("Malloc failed !\n");
+		free(entry->fork_tab);
+		free(philos->philo_thread);
+		return (1);
+	}
+	return (0);
+}
+
+static void	init_struct_philo(t_philo *philo, t_parsed *entry, int i)
+{
+	philo->id = i + 1;
+	philo->left_fork = entry->fork_tab + i;
+	if (i == 0)
+		philo->right_fork = entry->fork_tab + (entry->philo_num - 1);
+	else
+		philo->right_fork = entry->fork_tab + (i + 1);
+	philo->entry = entry;
+}
+
+int	init_philo(t_group_philo *philos, t_parsed *entry)
+{
+	int				i;
+
+	if (malloc_philo(philos, entry) == 1)
+		return (1);
 	i = 0;
 	while (i < entry->philo_num)
 	{
-		philo.id = i + 1;
-		philo.left_fork = entry->fork_tab + i;
-		if (i == 0)
-			philo.right_fork = entry->fork_tab + (entry->philo_num - 1);
-		else
-			philo.right_fork = entry->fork_tab + (i + 1);
-		if (pthread_create(philo_tab + i, NULL, NULL, &philo) != 0)
+		init_struct_philo(&philos->philo[i], entry, i);
+		if (pthread_create(philos->philo_thread + i, NULL, &core, &philos->philo[i]) != 0)
 		{
 			printf("Failed to create thread !\n");
-			free(philo_tab);
+			free(philos->philo_thread);
+			free(philos->philo);
 			free(entry->fork_tab);
-			return (NULL);
+			return (1);
 		}
 		i++;
 	}
-	return (philo_tab);
+	return (0);
 }
 
-int	end_philo(pthread_t *philo_tab, t_parsed *entry)
+int	end_philo(t_group_philo *philos, t_parsed *entry)
 {
 	int	i;
 
 	i = 0;
 	while (i < entry->philo_num)
 	{
-		if (pthread_join(philo_tab[i], NULL) != 0)
+		if (pthread_join(philos->philo_thread[i], NULL) != 0)
 		{
 			printf("Failed to join thread !\n");
-			free(philo_tab);
+			free(philos->philo_thread);
 			free(entry->fork_tab);
+			free(philos->philo);
 			return (1);
 		}
 		i++;
@@ -57,7 +78,8 @@ int	end_philo(pthread_t *philo_tab, t_parsed *entry)
 		pthread_mutex_destroy(entry->fork_tab + i);
 		i++;
 	}
-	free(philo_tab);
+	free(philos->philo_thread);
 	free(entry->fork_tab);
+	free(philos->philo);
 	return (0);
 }

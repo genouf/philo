@@ -1,9 +1,10 @@
 
 SRCS = 	sources/philo.c			\
 		sources/time.c			\
-		sources/entry.c		\
+		sources/entry.c			\
 		sources/init_philo.c	\
 		sources/utils.c			\
+		sources/core.c	\
 
 OBJS = ${SRCS:.c=.o}
 

@@ -26,8 +26,16 @@ typedef struct s_philo {
 	t_parsed		*entry;
 }			t_philo;
 
+typedef struct s_group_philo {
+	t_philo		*philo;
+	pthread_t	*philo_thread;
+}			t_group_philo; 
+
 /*			PHILO			*/
 void		*core_thread(void *arg);
+
+/*			CORE			*/
+void		*core(void *arg);
 
 /*			TIME			*/
 long int	get_time(void);
@@ -39,7 +47,7 @@ float		time_diff(struct timeval *start, struct timeval *end);
 int			entry_parse(char **argv, int argc, t_parsed *entry);
 
 /*			INIT_PHILO		*/
-pthread_t 	*init_philo(t_parsed *entry);
-int			end_philo(pthread_t *philo_tab, t_parsed *entry);
+int			init_philo(t_group_philo *philos, t_parsed *entry);
+int			end_philo(t_group_philo *philos, t_parsed *entry);
 
 #endif
