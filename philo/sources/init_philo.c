@@ -29,8 +29,10 @@ static void	init_struct_philo(t_philo *philo, t_parsed *entry, int i)
 	if (i == 0)
 		philo->right_fork = entry->fork_tab + (entry->philo_num - 1);
 	else
-		philo->right_fork = entry->fork_tab + (i + 1);
+		philo->right_fork = entry->fork_tab + (i - 1);
 	philo->entry = entry;
+	philo->eat_count = entry->philo_eat;
+	philo->alive = 1;
 }
 
 int	init_philo(t_group_philo *philos, t_parsed *entry)

@@ -5,6 +5,7 @@ SRCS = 	sources/philo.c			\
 		sources/init_philo.c	\
 		sources/security.c		\
 		sources/core.c			\
+		sources/utils.c			\
 
 OBJS = ${SRCS:.c=.o}
 

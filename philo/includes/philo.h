@@ -24,6 +24,8 @@ typedef struct s_philo {
 	pthread_mutex_t *left_fork;
 	pthread_mutex_t *right_fork;
 	t_parsed		*entry;
+	int				alive;
+	int				eat_count;
 }			t_philo;
 
 typedef struct s_group_philo {
@@ -53,5 +55,9 @@ int			end_philo(t_group_philo *philos, t_parsed *entry);
 /*			SECURITY		*/
 void		free_mutex_tab(t_parsed *entry);
 void		emergency_join(pthread_t *philo_thread, int i);
+
+/*			UTILS			*/
+long		ft_atoi(const char *str);
+void		only_philo(t_parsed *entry);
 
 #endif
