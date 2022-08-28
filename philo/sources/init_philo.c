@@ -42,6 +42,7 @@ int	init_philo(t_group_philo *philos, t_parsed *entry)
 	if (malloc_philo(philos, entry) == 1)
 		return (1);
 	i = 0;
+	entry->start_time = get_time();
 	while (i < entry->philo_num)
 	{
 		init_struct_philo(&philos->philo[i], entry, i);

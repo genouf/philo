@@ -24,6 +24,7 @@ static void	init_struct(t_parsed *entry)
 	entry->time_to_eat = 0;
 	entry->time_to_sleep = 0;
 	entry->philo_eat = 0;
+	entry->start_time = 0;
 	entry->fork_tab = NULL;
 }
 

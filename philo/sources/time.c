@@ -10,7 +10,7 @@ long int	get_time(void)
 		printf("Gettimeofday crashed !\n");
 		return (-1);
 	}
-	return (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
+	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
 }
 
 void	ft_usleep(long int time_in_ms)
@@ -37,4 +37,9 @@ float	time_diff(struct timeval *start, struct timeval *end)
 {
 	return (((end->tv_sec - start->tv_sec) + 1e-6
 			* (end->tv_usec - start->tv_usec)) * 1000);
+}
+
+long int	timestamp(long int start)
+{
+	return (get_time() - start);
 }

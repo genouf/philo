@@ -17,6 +17,7 @@ typedef struct s_parsed {
 	long int			time_to_sleep;
 	int					philo_eat;
 	pthread_mutex_t		*fork_tab;
+	long int			start_time;
 }			t_parsed;
 
 typedef struct s_philo {
@@ -44,6 +45,7 @@ long int	get_time(void);
 void		ft_usleep(long int time_in_ms)  ;
 int			check_death(long int start, long int time_to_die);
 float		time_diff(struct timeval *start, struct timeval *end);
+long int	timestamp(long int start);
 
 /*			ENTRY			*/
 int			entry_parse(char **argv, int argc, t_parsed *entry);
