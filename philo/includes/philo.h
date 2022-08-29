@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:42 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 10:00:49 by genouf           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:28:06 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ typedef struct s_parsed {
 	pthread_mutex_t		*fork_tab;
 	long int			start_time;
 	pthread_mutex_t		m_print;
+	pthread_mutex_t		m_eat;
+	int					philos_ok;
+	int					ph_finished;
 }			t_parsed;
 
 typedef struct s_philo {
@@ -38,16 +41,19 @@ typedef struct s_philo {
 	pthread_mutex_t *right_fork;
 	t_parsed		*entry;
 	int				alive;
+	int				finished;
 	int				eat_count;
+	long int		last_eat;
 }			t_philo;
 
 typedef struct s_group_philo {
 	t_philo		*philo;
 	pthread_t	*philo_thread;
-}			t_group_philo; 
+}			t_group_philo;
 
 /*			PHILO			*/
 void		*core_thread(void *arg);
+void		check_death(t_group_philo *philos, t_parsed *entry);
 
 /*			CORE			*/
 void		*core(void *arg);
@@ -55,7 +61,6 @@ void		*core(void *arg);
 /*			TIME			*/
 long int	get_time(void);
 void		ft_usleep(long int time_in_ms)  ;
-int			check_death(long int start, long int time_to_die);
 float		time_diff(struct timeval *start, struct timeval *end);
 long int	timestamp(long int start);
 

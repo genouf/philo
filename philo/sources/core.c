@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:21:52 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 12:24:41 by genouf           ###   ########.fr       */
+/*   Updated: 2022/08/29 16:14:05 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,66 @@ static void	philo_print(char *msg, t_philo *philo)
 	pthread_mutex_unlock(&philo->entry->m_print);
 }
 
-void	routine(t_philo *philo)
+static int	check_alive(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->entry->m_eat);
+	if (philo->entry->philos_ok == 0)
+	{
+		pthread_mutex_unlock(&philo->entry->m_eat);
+		return (1);
+	}
+	if (get_time() - philo->last_eat >= philo->entry->time_to_die)
+	{
+		philo->alive = 0;
+		pthread_mutex_unlock(&philo->entry->m_eat);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->entry->m_eat);
+	return (0);
+}
+
+static int	philo_eat(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 		pthread_mutex_lock(philo->left_fork);
 	else
 		pthread_mutex_lock(philo->right_fork);
+	if (check_alive(philo))
+	{
+		if (philo->id % 2 == 0)
+			pthread_mutex_unlock(philo->left_fork);
+		else
+			pthread_mutex_unlock(philo->right_fork);
+		return (1);
+	}
 	philo_print("has taken a fork", philo);
 	if (philo->id % 2 == 0)
 		pthread_mutex_lock(philo->right_fork);
 	else
 		pthread_mutex_lock(philo->left_fork);
+	if (check_alive(philo))
+		return (1);
 	philo_print("has taken a fork", philo);
 	philo_print("is eating", philo);
 	ft_usleep(philo->entry->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
+	philo->last_eat = get_time();
+	return (0);
+}
+
+static int	routine(t_philo *philo)
+{
+	philo_print("is thinking", philo);
+	if (philo_eat(philo))
+		return (1);
+	if (check_alive(philo))
+		return (1);
 	philo_print("is sleeping", philo);
 	ft_usleep(philo->entry->time_to_sleep);
-	philo_print("is thinking", philo);
+	if (check_alive(philo))
+		return (1);
+	return (0);
 }
 
 void	*core(void *arg)
@@ -50,15 +91,28 @@ void	*core(void *arg)
 	if (philo->eat_count == -1)
 	{
 		while (1)
-			routine(philo);
+		{
+			if (routine(philo))
+			{
+				philo_print("died", philo);
+				return (NULL);
+			}
+		}
 	}
 	else
 	{
 		while (philo->eat_count > 0)
 		{
-			routine(philo);
+			if (routine(philo))
+			{
+				philo_print("died", philo);
+				return (NULL);
+			}
 			philo->eat_count--;
-		}	
+		}
 	}
+	pthread_mutex_lock(&philo->entry->m_eat);
+	philo->finished = 1;
+	pthread_mutex_unlock(&philo->entry->m_eat);
 	return (NULL);
 }

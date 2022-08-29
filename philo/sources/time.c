@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:27 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 09:22:29 by genouf           ###   ########.fr       */
+/*   Updated: 2022/08/29 14:07:34 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,6 @@ void	ft_usleep(long int time_in_ms)
 	start_time = get_time();
 	while ((get_time() - start_time) < time_in_ms)
 		usleep(time_in_ms / 10);
-}
-
-int	check_death(long int start, long int time_to_die)
-{
-	long int	now;
-
-	now = get_time();
-	if (now - start >= time_to_die)
-		return (1);
-	else
-		return (0);
 }
 
 float	time_diff(struct timeval *start, struct timeval *end)
