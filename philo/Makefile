@@ -6,6 +6,7 @@ SRCS = 	sources/philo.c			\
 		sources/security.c		\
 		sources/core.c			\
 		sources/utils.c			\
+		sources/mutex.c			\
 
 OBJS = ${SRCS:.c=.o}
 

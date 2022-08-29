@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:21:52 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 16:14:05 by genouf           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:58:24 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,26 @@ static int	check_alive(t_philo *philo)
 static int	philo_eat(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
-		pthread_mutex_lock(philo->left_fork);
+		lock_fork(philo->left_fork);
 	else
-		pthread_mutex_lock(philo->right_fork);
+		lock_fork(philo->right_fork);
 	if (check_alive(philo))
 	{
-		if (philo->id % 2 == 0)
-			pthread_mutex_unlock(philo->left_fork);
-		else
-			pthread_mutex_unlock(philo->right_fork);
+		
 		return (1);
 	}
 	philo_print("has taken a fork", philo);
 	if (philo->id % 2 == 0)
-		pthread_mutex_lock(philo->right_fork);
+		lock_fork(philo->right_fork);
 	else
-		pthread_mutex_lock(philo->left_fork);
+		lock_fork(philo->left_fork);
 	if (check_alive(philo))
 		return (1);
 	philo_print("has taken a fork", philo);
 	philo_print("is eating", philo);
 	ft_usleep(philo->entry->time_to_eat);
-	pthread_mutex_unlock(philo->right_fork);
-	pthread_mutex_unlock(philo->left_fork);
+	unlock_fork(philo->right_fork);
+	unlock_fork(philo->left_fork);
 	philo->last_eat = get_time();
 	return (0);
 }

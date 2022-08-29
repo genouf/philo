@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:16 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 15:49:13 by genouf           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:59:47 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	main(int argc, char **argv)
 		return (1);
 	while (entry.philos_ok == 1 && entry.ph_finished == 0)
 		check_death(&philos, &entry);
+	unlock_all(&philos, &entry);
 	end_philo(&philos, &entry);
 	printf("TOTAL TIME : %ld\n", timestamp(start));
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:42 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 17:28:06 by genouf           ###   ########.fr       */
+/*   Updated: 2022/08/29 17:59:35 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,18 @@
 # include <sys/time.h>
 
 /*			STRUCT			*/
+typedef struct s_fork {
+	pthread_mutex_t	fork;
+	int				taken;
+}			t_fork;
+
 typedef struct s_parsed {
 	int					philo_num;
 	long int			time_to_die;
 	long int			time_to_eat;
 	long int			time_to_sleep;
 	int					philo_eat;
-	pthread_mutex_t		*fork_tab;
+	t_fork				*fork_tab;
 	long int			start_time;
 	pthread_mutex_t		m_print;
 	pthread_mutex_t		m_eat;
@@ -37,8 +42,8 @@ typedef struct s_parsed {
 
 typedef struct s_philo {
 	int	id;
-	pthread_mutex_t *left_fork;
-	pthread_mutex_t *right_fork;
+	t_fork 			*left_fork;
+	t_fork			*right_fork;
 	t_parsed		*entry;
 	int				alive;
 	int				finished;
@@ -78,5 +83,10 @@ void		emergency_join(pthread_t *philo_thread, int i);
 /*			UTILS			*/
 long		ft_atoi(const char *str);
 void		only_philo(t_parsed *entry);
+
+/*			MUTEX			*/
+void 		lock_fork(t_fork *fork);
+void 		unlock_fork(t_fork *fork);
+void 		unlock_all(t_group_philo *philos, t_parsed *entry);
 
 #endif

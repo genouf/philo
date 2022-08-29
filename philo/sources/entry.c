@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:00 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 15:49:42 by genouf           ###   ########.fr       */
+/*   Updated: 2022/08/29 18:00:14 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ static void	init_struct(t_parsed *entry)
 	pthread_mutex_init(&entry->m_eat, NULL);
 }
 
-static pthread_mutex_t	*init_fork_tab(int philo_num)
+static t_fork	*init_fork_tab(int philo_num)
 {
-	pthread_mutex_t	*fork_tab;
+	t_fork	*fork_tab;
 	int				i;
 
-	fork_tab = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * philo_num);
+	fork_tab = (t_fork *)malloc(sizeof(t_fork) * philo_num);
 	if (fork_tab == NULL)
 	{
 		printf("Malloc failed !\n");
@@ -57,7 +57,8 @@ static pthread_mutex_t	*init_fork_tab(int philo_num)
 	i = 0;
 	while (i < philo_num)
 	{
-		pthread_mutex_init(&fork_tab[i], NULL);
+		fork_tab->taken = 0;
+		pthread_mutex_init(&fork_tab[i].fork, NULL);
 		i++;
 	}
 	return (fork_tab);
