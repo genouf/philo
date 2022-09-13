@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:42 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 17:59:35 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/13 11:32:39 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ typedef struct s_group_philo {
 void		*core_thread(void *arg);
 void		check_death(t_group_philo *philos, t_parsed *entry);
 
+/*			ENTRY			*/
+int			entry_parse(char **argv, int argc, t_parsed *entry);
+
 /*			CORE			*/
 void		*core(void *arg);
 
@@ -68,9 +71,6 @@ long int	get_time(void);
 void		ft_usleep(long int time_in_ms)  ;
 float		time_diff(struct timeval *start, struct timeval *end);
 long int	timestamp(long int start);
-
-/*			ENTRY			*/
-int			entry_parse(char **argv, int argc, t_parsed *entry);
 
 /*			INIT_PHILO		*/
 int			init_philo(t_group_philo *philos, t_parsed *entry);
@@ -82,7 +82,6 @@ void		emergency_join(pthread_t *philo_thread, int i);
 
 /*			UTILS			*/
 long		ft_atoi(const char *str);
-void		only_philo(t_parsed *entry);
 
 /*			MUTEX			*/
 void 		lock_fork(t_fork *fork);

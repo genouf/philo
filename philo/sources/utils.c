@@ -6,11 +6,11 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:33 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 09:22:34 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/13 11:39:48 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "philo.h"
 
 long	ft_atoi(const char *str)
 {
@@ -33,12 +33,4 @@ long	ft_atoi(const char *str)
 		i++;
 	}
 	return (result * neg);
-}
-
-void	only_philo(t_parsed *entry)
-{
-	printf("%ld 1 has taken a fork\n", get_time());
-	printf("%ld 1 is thinking\n", get_time());
-	ft_usleep(entry->time_to_die);
-	printf("%ld 1 died\n", get_time());
 }

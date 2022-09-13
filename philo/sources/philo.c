@@ -6,11 +6,11 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:16 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 17:59:47 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/13 11:39:48 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "philo.h"
 
 void	check_death(t_group_philo *philos, t_parsed *entry)
 {
@@ -52,10 +52,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (entry_parse(argv, argc, &entry))
-	{
-		printf("TOTAL TIME : %ld\n", timestamp(start));
 		return (1);
-	}
 	/* PARTIE DES THREADS */
 	if (init_philo(&philos, &entry))
 		return (1);

@@ -1,43 +1,51 @@
-
-SRCS = 	sources/philo.c			\
-		sources/time.c			\
-		sources/entry.c			\
-		sources/init_philo.c	\
-		sources/security.c		\
-		sources/core.c			\
-		sources/utils.c			\
-		sources/mutex.c			\
-
-OBJS = ${SRCS:.c=.o}
-
-INC = includes/philo.h
-
 NAME = philo
 
-RM = rm -f
+SRC_PATH = sources/
+OBJ_PATH = obj/
+
+SRC_NAME = 	philo.c			\
+			time.c			\
+			entry.c			\
+			init_end.c		\
+			security.c		\
+			core.c			\
+			utils.c			\
+			mutex.c			\
+
+OBJ_NAME = $(SRC_NAME:.c=.o)
+
+SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
+OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
+INC = -I includes
 
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
+LIBS = -lpthread
+RM = @rm -rf
 
-all: ${NAME}
+all: $(NAME)
 
-${NAME}: ${OBJS}
-			${CC} ${FLAGS} -o $@ ${SRCS} -lpthread
+$(NAME): $(OBJ)
+		@echo "Build $(NAME)"
+		@$(CC) $(FLAGS) $(INC) $(OBJ) -o $(NAME) $(LIBS)
 
-/%.o: %.c
-			${CC} ${FLAGS} -c $@ $<
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+		mkdir -p $(@D)
+		$(CC) $(FLAGS) $(INC) -o $@ -c $<
 
-skiperror: ${OBJS}
-			${CC} -o ${NAME} ${SRCS} -lpthread
+skiperror: $(OBJS)
+			$(CC) -o $(NAME) $(SRCS) -lpthread
 
-fsa:	${OBJS}
-		${CC} -fsanitize=address ${FLAGS} -o $@ ${SRCS}
+fsa:	$(OBJS)
+		$(CC) -fsanitize=address $(FLAGS) -o $@ $(SRCS)
 
 clean:
-		${RM} ./${OBJS}
+		$(RM) $(OBJ_PATH)
 
 fclean:	clean
-		${RM} ${NAME}
+		$(RM) $(NAME)
 
 re:	fclean
 	make all
+
+.PHONY: all clean fclean re

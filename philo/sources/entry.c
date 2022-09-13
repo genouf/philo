@@ -6,11 +6,11 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:00 by genouf            #+#    #+#             */
-/*   Updated: 2022/08/29 18:00:14 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/13 11:39:48 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "philo.h"
 
 static	int	check_integer(char *str)
 {
@@ -89,11 +89,6 @@ int	entry_parse(char **argv, int argc, t_parsed *entry)
 	}
 	init_struct(entry);
 	set_struct(argv, argc, entry);
-	if (entry->philo_num == 1)
-	{
-		only_philo(entry);
-		return (1);
-	}
 	entry->fork_tab = init_fork_tab(entry->philo_num);
 	if (entry->fork_tab == NULL)
 		return (1);
