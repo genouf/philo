@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:16 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/13 11:39:48 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/13 16:36:46 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,20 @@ void	check_death(t_group_philo *philos, t_parsed *entry)
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(&entry->m_eat);
-	while (i < entry->philo_num)
+	while (i < entry->philo_num && entry->ph_finished == 0)
 	{
-		if (philos->philo[i].finished == 1)
+		pthread_mutex_lock(&philos->philo[i].m_eat);
+		if (get_time() - philos->philo[i].last_eat >= philos->philo[i].entry->time_to_die)
 		{
+			philos->philo[i].alive = 0;
+			pthread_mutex_unlock(&philos->philo[i].m_eat);
 			entry->ph_finished = 1;
-			pthread_mutex_unlock(&entry->m_eat);
-			return;
+			philo_print("died", &philos->philo[i]);
+			return ;
 		}
-		if (philos->philo[i].alive == 0)
-		{
-			entry->philos_ok = 0;
-			pthread_mutex_unlock(&entry->m_eat);
-			return;
-		}
+		pthread_mutex_unlock(&philos->philo[i].m_eat);
 		i++;
 	}
-	pthread_mutex_unlock(&entry->m_eat);
 }
 
 int	main(int argc, char **argv)
@@ -56,7 +52,7 @@ int	main(int argc, char **argv)
 	/* PARTIE DES THREADS */
 	if (init_philo(&philos, &entry))
 		return (1);
-	while (entry.philos_ok == 1 && entry.ph_finished == 0)
+	while (entry.ph_finished == 0)
 		check_death(&philos, &entry);
 	unlock_all(&philos, &entry);
 	end_philo(&philos, &entry);

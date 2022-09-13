@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:33 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/13 11:39:48 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/13 17:37:57 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,23 @@ long	ft_atoi(const char *str)
 		i++;
 	}
 	return (result * neg);
+}
+
+void	philo_print(char *msg, t_philo *philo)
+{
+	pthread_mutex_lock(&philo->entry->m_print);
+	printf("%ld %d %s\n", timestamp(philo->entry->start_time), philo->id, msg);
+	pthread_mutex_unlock(&philo->entry->m_print);
+}
+
+int	check_alive(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->entry->master_eat);
+	if (philo->entry->ph_finished == 1)
+	{
+		pthread_mutex_unlock(&philo->entry->master_eat);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->entry->master_eat);
+	return (0);
 }

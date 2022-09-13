@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:42 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/13 11:32:39 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/13 15:14:27 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_parsed {
 	t_fork				*fork_tab;
 	long int			start_time;
 	pthread_mutex_t		m_print;
-	pthread_mutex_t		m_eat;
+	pthread_mutex_t		master_eat;
 	int					philos_ok;
 	int					ph_finished;
 }			t_parsed;
@@ -45,6 +45,7 @@ typedef struct s_philo {
 	t_fork 			*left_fork;
 	t_fork			*right_fork;
 	t_parsed		*entry;
+	pthread_mutex_t		m_eat;
 	int				alive;
 	int				finished;
 	int				eat_count;
@@ -82,6 +83,8 @@ void		emergency_join(pthread_t *philo_thread, int i);
 
 /*			UTILS			*/
 long		ft_atoi(const char *str);
+void		philo_print(char *msg, t_philo *philo);
+int			check_alive(t_philo *philo);
 
 /*			MUTEX			*/
 void 		lock_fork(t_fork *fork);
