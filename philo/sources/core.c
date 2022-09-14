@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:21:52 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 12:46:38 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 15:04:09 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static int	routine(t_philo *philo)
 {
 	if (philo_print("is thinking", philo))
 		return (1);
+	if (ft_ucheck(3, philo))
+		return (1);
 	if (philo_eat(philo))
 		return (1);
 	if (philo_print("is sleeping", philo))
@@ -90,8 +92,8 @@ void	*core(void *arg)
 	t_philo		*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 != 0)
-		ft_usleep(philo->entry->time_to_eat / 2);
+	if (philo->id % 2 != 0 && philo->entry->philo_num != 1)
+		ft_usleep(20);
 	if (process_core(philo, philo->eat_count))
 		return (NULL);
 	pthread_mutex_lock(&philo->entry->master_eat);

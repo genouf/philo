@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:42 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 12:42:59 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 14:59:55 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void		check_death(t_group_philo *philos, t_parsed *entry);
 
 /*			ENTRY			*/
 int			entry_parse(char **argv, int argc, t_parsed *entry);
+/*			ENTRY 2			*/
+int			checker_integer(char *str);
 
 /*			CORE			*/
 void		*core(void *arg);
@@ -86,6 +88,9 @@ long		ft_atoi(const char *str);
 int			philo_print(char *msg, t_philo *philo);
 int			check_alive(t_philo *philo);
 int			ft_ucheck(long int time_in_ms, t_philo *philo);
+int			ft_strcmp(char *s1, char *s2);
+/*			UTILS 2			*/
+char		*ft_itoa(int n);
 
 /*			MUTEX			*/
 int 		lock_fork(t_philo *philo, t_fork *fork);

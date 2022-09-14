@@ -6,10 +6,12 @@ OBJ_PATH = obj/
 SRC_NAME = 	philo.c			\
 			time.c			\
 			entry.c			\
+			entry2.c 		\
 			init_end.c		\
 			security.c		\
 			core.c			\
 			utils.c			\
+			utils2.c		\
 			mutex.c			\
 
 OBJ_NAME = $(SRC_NAME:.c=.o)

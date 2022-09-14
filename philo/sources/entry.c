@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:00 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 12:39:22 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 15:08:23 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,19 @@ static	int	check_integer(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '+')
+		i++;
 	while (str[i] == '0')
 		i++;
-	if (!(str[i] >= '0' && str[i] <= '9'))
-	{
-		printf("Bad argument !\n");
+	if (str[i] == '\0')
 		return (1);
+	while (str[i])
+	{
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (1);
+		i++;
 	}
-	else
-		return (0);
+	return (0);
 }
 
 static void	init_struct(t_parsed *entry)
@@ -83,8 +87,11 @@ int	entry_parse(char **argv, int argc, t_parsed *entry)
 	i = 1;
 	while (i < argc)
 	{
-		if (check_integer(argv[i]) == 1)
+		if (check_integer(argv[i]) || checker_integer(argv[i]))
+		{
+			printf("Bad argument !\n");
 			return (1);
+		}
 		i++;
 	}
 	init_struct(entry);
