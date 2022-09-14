@@ -6,42 +6,40 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:21:52 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/13 17:38:16 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 12:46:38 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_ucheck(long int time_in_ms, t_philo *philo)
+static int	take_fork(t_philo *philo)
 {
-	printf("time : %ld\n", time_in_ms);
-	while (time_in_ms)
-	{
-		if (check_alive(philo))
-			return (1);
-		ft_usleep(1);
-		time_in_ms--;
-	}
+	int	check;
+
+	if (philo->id % 2 == 0)
+		check = lock_fork(philo, philo->left_fork);
+	else
+		check = lock_fork(philo, philo->right_fork);
+	if (check == 1)
+		return (1);
+	philo_print("has taken a fork", philo);
+	check = 0;
+	if (philo->id % 2 == 0)
+		check = lock_fork(philo, philo->right_fork);
+	else
+		check = lock_fork(philo, philo->left_fork);
+	if (check == 1)
+		return (1);
+	philo_print("has taken a fork", philo);
 	return (0);
 }
 
-int	philo_eat(t_philo *philo)
+static int	philo_eat(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-		lock_fork(philo->left_fork);
-	else
-		lock_fork(philo->right_fork);
-	philo_print("has taken a fork", philo);
-	if (check_alive(philo))
+	if (take_fork(philo))
 		return (1);
-	if (philo->id % 2 == 0)
-		lock_fork(philo->right_fork);
-	else
-		lock_fork(philo->left_fork);
-	philo_print("has taken a fork", philo);
-	if (check_alive(philo))
+	if (philo_print("is eating", philo))
 		return (1);
-	philo_print("is eating", philo);
 	pthread_mutex_lock(&philo->m_eat);
 	philo->last_eat = get_time();
 	pthread_mutex_unlock(&philo->m_eat);
@@ -52,14 +50,38 @@ int	philo_eat(t_philo *philo)
 	return (0);
 }
 
-int	routine(t_philo *philo)
+static int	routine(t_philo *philo)
 {
-	philo_print("is thinking", philo);
+	if (philo_print("is thinking", philo))
+		return (1);
 	if (philo_eat(philo))
 		return (1);
-	philo_print("is sleeping", philo);
+	if (philo_print("is sleeping", philo))
+		return (1);
 	if (ft_ucheck(philo->entry->time_to_sleep, philo))
 		return (1);
+	return (0);
+}
+
+static int	process_core(t_philo *philo, int eat_count)
+{
+	if (eat_count == -1)
+	{
+		while (1)
+		{
+			if (routine(philo))
+				return (1);
+		}
+	}
+	else
+	{
+		while (eat_count > 0)
+		{
+			if (routine(philo))
+				return (1);
+			philo->eat_count--;
+		}
+	}
 	return (0);
 }
 
@@ -70,23 +92,8 @@ void	*core(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->id % 2 != 0)
 		ft_usleep(philo->entry->time_to_eat / 2);
-	if (philo->eat_count == -1)
-	{
-		while (1)
-		{
-			if (routine(philo))
-				return (NULL);
-		}
-	}
-	else
-	{
-		while (philo->eat_count > 0)
-		{
-			if (routine(philo))
-				return (NULL);
-			philo->eat_count--;
-		}
-	}
+	if (process_core(philo, philo->eat_count))
+		return (NULL);
 	pthread_mutex_lock(&philo->entry->master_eat);
 	philo->finished = 1;
 	pthread_mutex_unlock(&philo->entry->master_eat);

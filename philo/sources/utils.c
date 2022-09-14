@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:33 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/13 17:37:57 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 12:43:07 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,38 @@ long	ft_atoi(const char *str)
 	return (result * neg);
 }
 
-void	philo_print(char *msg, t_philo *philo)
+int	ft_strcmp(char *s1, char *s2)
 {
+	int	i;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
+	}
+	return (0);
+}
+
+int	philo_print(char *msg, t_philo *philo)
+{
+	if (check_alive(philo) && ft_strcmp("died", msg) != 0)
+		return (1);
 	pthread_mutex_lock(&philo->entry->m_print);
 	printf("%ld %d %s\n", timestamp(philo->entry->start_time), philo->id, msg);
 	pthread_mutex_unlock(&philo->entry->m_print);
+	return (0);
 }
 
-int	check_alive(t_philo *philo)
+int	ft_ucheck(long int time_in_ms, t_philo *philo)
 {
-	pthread_mutex_lock(&philo->entry->master_eat);
-	if (philo->entry->ph_finished == 1)
+	while (time_in_ms)
 	{
-		pthread_mutex_unlock(&philo->entry->master_eat);
-		return (1);
+		if (check_alive(philo))
+			return (1);
+		ft_usleep(1);
+		time_in_ms--;
 	}
-	pthread_mutex_unlock(&philo->entry->master_eat);
 	return (0);
 }

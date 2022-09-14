@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:00 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/13 14:41:40 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 12:39:22 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	init_struct(t_parsed *entry)
 static t_fork	*init_fork_tab(int philo_num)
 {
 	t_fork	*fork_tab;
-	int				i;
+	int		i;
 
 	fork_tab = (t_fork *)malloc(sizeof(t_fork) * philo_num);
 	if (fork_tab == NULL)
