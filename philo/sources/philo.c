@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:16 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 12:39:04 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 15:50:55 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ int	main(int argc, char **argv)
 {
 	t_parsed		entry;
 	t_group_philo	philos;
-	long int		start;
 
-	start = get_time();
 	if (argc != 5 && argc != 6)
 	{
 		printf("Bad number of arguments !\n");
@@ -53,6 +51,5 @@ int	main(int argc, char **argv)
 	while (entry.ph_finished == 0)
 		check_death(&philos, &entry);
 	end_philo(&philos, &entry);
-	printf("TOTAL TIME : %ld\n", timestamp(start));
 	return (0);
 }

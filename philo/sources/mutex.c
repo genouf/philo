@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 17:46:13 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 12:40:01 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 15:43:17 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_fork(t_philo *philo, t_fork *fork)
 		pthread_mutex_unlock(&fork->fork);
 		if (check_alive(philo))
 			return (1);
-		ft_usleep(1);
+		ft_usleep(0.5);
 	}
 	pthread_mutex_unlock(&fork->fork);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:00 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 15:08:23 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 15:38:51 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static void	init_struct(t_parsed *entry)
 	entry->time_to_sleep = 0;
 	entry->philo_eat = 0;
 	entry->start_time = 0;
-	entry->philos_ok = 1;
 	entry->fork_tab = NULL;
 	entry->ph_finished = 0;
 	pthread_mutex_init(&entry->m_print, NULL);

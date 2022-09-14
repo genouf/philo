@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:21:52 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 15:04:09 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 16:06:35 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,35 @@ static int	philo_eat(t_philo *philo)
 	return (0);
 }
 
-static int	routine(t_philo *philo)
+static int	routine(t_philo *philo, int *first)
 {
 	if (philo_print("is thinking", philo))
 		return (1);
-	if (ft_ucheck(3, philo))
-		return (1);
+	if (philo->entry->philo_num % 2 != 0 && philo->entry->philo_num != 1 && *first == 1)
+	{
+		if (ft_ucheck(1, philo))
+			return (1);
+	}
 	if (philo_eat(philo))
 		return (1);
 	if (philo_print("is sleeping", philo))
 		return (1);
 	if (ft_ucheck(philo->entry->time_to_sleep, philo))
 		return (1);
+	*first = 1;
 	return (0);
 }
 
 static int	process_core(t_philo *philo, int eat_count)
 {
+	int	first;
+
+	first = 0;
 	if (eat_count == -1)
 	{
 		while (1)
 		{
-			if (routine(philo))
+			if (routine(philo, &first))
 				return (1);
 		}
 	}
@@ -79,7 +86,7 @@ static int	process_core(t_philo *philo, int eat_count)
 	{
 		while (eat_count > 0)
 		{
-			if (routine(philo))
+			if (routine(philo, &first))
 				return (1);
 			philo->eat_count--;
 		}
