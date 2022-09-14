@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:42 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 15:40:45 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 16:10:12 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ typedef struct s_parsed {
 }			t_parsed;
 
 typedef struct s_philo {
-	int	id;
-	t_fork 			*left_fork;
+	int				id;
+	t_fork			*left_fork;
 	t_fork			*right_fork;
 	t_parsed		*entry;
-	pthread_mutex_t		m_eat;
+	pthread_mutex_t	m_eat;
 	int				alive;
 	int				finished;
 	int				eat_count;
@@ -70,7 +70,7 @@ void		*core(void *arg);
 
 /*			TIME			*/
 long int	get_time(void);
-void		ft_usleep(long int time_in_ms)  ;
+void		ft_usleep(long int time_in_ms);
 float		time_diff(struct timeval *start, struct timeval *end);
 long int	timestamp(long int start);
 
@@ -92,9 +92,9 @@ int			ft_strcmp(char *s1, char *s2);
 char		*ft_itoa(int n);
 
 /*			MUTEX			*/
-int 		lock_fork(t_philo *philo, t_fork *fork);
-void 		unlock_fork(t_fork *fork);
-void 		unlock_all(t_group_philo *philos, t_parsed *entry);
+int			lock_fork(t_philo *philo, t_fork *fork);
+void		unlock_fork(t_fork *fork);
+void		unlock_all(t_group_philo *philos, t_parsed *entry);
 int			check_fork(t_philo *philo, t_fork *fork);
 int			check_alive(t_philo *philo);
 

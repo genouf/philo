@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:21:52 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 16:06:35 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 16:08:36 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static int	routine(t_philo *philo, int *first)
 {
 	if (philo_print("is thinking", philo))
 		return (1);
-	if (philo->entry->philo_num % 2 != 0 && philo->entry->philo_num != 1 && *first == 1)
+	if (philo->entry->philo_num % 2 != 0
+		&& philo->entry->philo_num != 1 && *first == 1)
 	{
 		if (ft_ucheck(1, philo))
 			return (1);

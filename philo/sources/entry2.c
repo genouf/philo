@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 14:13:28 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 15:08:40 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 16:08:53 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	checker_integer(char *str)
 {
-	int	number;
+	int		number;
 	char	*tmp;
 
 	number = ft_atoi(str);
