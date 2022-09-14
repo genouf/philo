@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:00 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 15:38:51 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 16:18:01 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	init_struct(t_parsed *entry)
 	entry->ph_finished = 0;
 	pthread_mutex_init(&entry->m_print, NULL);
 	pthread_mutex_init(&entry->master_eat, NULL);
+	pthread_mutex_init(&entry->mass_start, NULL);
 }
 
 static t_fork	*init_fork_tab(int philo_num)

@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:21:52 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 16:08:36 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 18:08:17 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,20 @@ static int	routine(t_philo *philo, int *first)
 {
 	if (philo_print("is thinking", philo))
 		return (1);
-	if (philo->entry->philo_num % 2 != 0
+	/*if (philo->entry->philo_num % 2 != 0
 		&& philo->entry->philo_num != 1 && *first == 1)
 	{
 		if (ft_ucheck(1, philo))
 			return (1);
+	}*/
+	if (philo->entry->philo_num % 2 != 0 && *first != 0)
+	{
+		while (get_time() - philo->last_eat < philo->entry->time_to_sleep
+			+ philo->entry->time_to_eat + (philo->entry->time_to_sleep / 2))
+			ft_usleep(1);
 	}
 	if (philo_eat(philo))
-		return (1);
+			return (1);
 	if (philo_print("is sleeping", philo))
 		return (1);
 	if (ft_ucheck(philo->entry->time_to_sleep, philo))
@@ -100,8 +106,11 @@ void	*core(void *arg)
 	t_philo		*philo;
 
 	philo = (t_philo *)arg;
+	pthread_mutex_lock(&philo->entry->mass_start);
+	philo->last_eat = philo->entry->start_time;
+	pthread_mutex_unlock(&philo->entry->mass_start);
 	if (philo->id % 2 != 0 && philo->entry->philo_num != 1)
-		ft_usleep(20);
+		ft_usleep(10);
 	if (process_core(philo, philo->eat_count))
 		return (NULL);
 	pthread_mutex_lock(&philo->entry->master_eat);

@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:42 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 16:10:12 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 16:17:27 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_parsed {
 	long int			start_time;
 	pthread_mutex_t		m_print;
 	pthread_mutex_t		master_eat;
+	pthread_mutex_t		mass_start;
 	int					ph_finished;
 }			t_parsed;
 

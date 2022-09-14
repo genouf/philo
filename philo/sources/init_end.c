@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:09 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/13 17:15:20 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/14 16:41:13 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	init_struct_philo(t_philo *philo, t_parsed *entry, int i)
 	philo->entry = entry;
 	philo->eat_count = entry->philo_eat;
 	philo->alive = 1;
-	philo->last_eat = entry->start_time;
+	philo->last_eat = get_time();
 	philo->finished = 0;
 	pthread_mutex_init(&philo->m_eat, NULL);
 }
@@ -56,7 +56,7 @@ int	init_philo(t_group_philo *philos, t_parsed *entry)
 	if (malloc_philo(philos, entry) == 1)
 		return (1);
 	i = 0;
-	entry->start_time = get_time();
+	pthread_mutex_lock(&entry->mass_start);
 	while (i < entry->philo_num)
 	{
 		init_struct_philo(&philos->philo[i], entry, i);
@@ -71,6 +71,8 @@ int	init_philo(t_group_philo *philos, t_parsed *entry)
 		}
 		i++;
 	}
+	entry->start_time = get_time();
+	pthread_mutex_unlock(&entry->mass_start);
 	return (0);
 }
 
