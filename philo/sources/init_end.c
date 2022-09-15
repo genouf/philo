@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:09 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/15 12:03:34 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 14:56:17 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	init_struct_philo(t_philo *philo, t_parsed *entry, int i)
 		philo->right_fork = entry->fork_tab + (i - 1);
 	philo->entry = entry;
 	philo->eat_count = entry->philo_eat;
-	philo->alive = 1;
 	philo->last_eat = get_time();
 	philo->finished = 0;
 	pthread_mutex_init(&philo->m_eat, NULL);
@@ -81,6 +80,7 @@ static void	free_global(t_group_philo *philos, t_parsed *entry)
 	pthread_mutex_destroy(&entry->m_print);
 	pthread_mutex_destroy(&entry->mass_start);
 	pthread_mutex_destroy(&entry->master_eat);
+	pthread_mutex_destroy(&entry->finished);
 	free_mutex_tab(entry);
 	free(philos->philo_thread);
 	free(philos->philo);

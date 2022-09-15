@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:21:52 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/15 09:24:32 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 14:40:16 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static int	routine(t_philo *philo, int *first)
 	}
 	if (philo_eat(philo))
 			return (1);
+	if (philo->eat_count == 1)
+		return (0);
 	if (philo_print("is sleeping", philo))
 		return (1);
 	if (ft_ucheck(philo->entry->time_to_sleep, philo))
@@ -87,11 +89,13 @@ static int	process_core(t_philo *philo)
 	{
 		while (philo->eat_count > 0)
 		{
-			printf("eat count = %d", philo->eat_count);
 			if (routine(philo, &first))
 				return (1);
 			philo->eat_count--;
 		}
+		pthread_mutex_lock(&philo->entry->finished);
+		philo->finished = 1;
+		pthread_mutex_unlock(&philo->entry->finished);
 	}
 	return (0);
 }
@@ -108,8 +112,5 @@ void	*core(void *arg)
 		ft_usleep(10);
 	if (process_core(philo))
 		return (NULL);
-	pthread_mutex_lock(&philo->entry->master_eat);
-	philo->finished = 1;
-	pthread_mutex_unlock(&philo->entry->master_eat);
 	return (NULL);
 }

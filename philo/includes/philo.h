@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:42 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/15 11:06:20 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 14:56:12 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_parsed {
 	pthread_mutex_t		m_print;
 	pthread_mutex_t		master_eat;
 	pthread_mutex_t		mass_start;
+	pthread_mutex_t		finished;
 	int					ph_finished;
 }			t_parsed;
 
@@ -46,7 +47,6 @@ typedef struct s_philo {
 	t_fork			*right_fork;
 	t_parsed		*entry;
 	pthread_mutex_t	m_eat;
-	int				alive;
 	int				finished;
 	int				eat_count;
 	long int		last_eat;
