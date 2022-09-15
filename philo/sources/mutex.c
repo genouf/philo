@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 17:46:13 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/15 14:54:42 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 14:58:05 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	unlock_fork(t_fork *fork)
 
 int	ft_ucheck(long int time_in_ms, t_philo *philo)
 {
-	long int start;
-	
+	long int	start;
+
 	start = get_time();
 	while (get_time() - start < time_in_ms)
 	{

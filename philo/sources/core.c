@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:21:52 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/15 14:40:16 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 14:58:13 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	routine(t_philo *philo, int *first)
 			ft_usleep(1);
 	}
 	if (philo_eat(philo))
-			return (1);
+		return (1);
 	if (philo->eat_count == 1)
 		return (0);
 	if (philo_print("is sleeping", philo))
