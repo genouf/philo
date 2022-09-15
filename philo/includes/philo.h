@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:42 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/15 14:56:12 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 15:38:14 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,10 @@ void		ft_usleep(long int time_in_ms);
 float		time_diff(struct timeval *start, struct timeval *end);
 long int	timestamp(long int start);
 
-/*			INIT_PHILO		*/
+/*			INIT_END		*/
 int			init_philo(t_group_philo *philos, t_parsed *entry);
 int			end_philo(t_group_philo *philos, t_parsed *entry);
+void		free_global(t_group_philo *philos, t_parsed *entry);
 
 /*			SECURITY		*/
 void		free_mutex_tab(t_parsed *entry);

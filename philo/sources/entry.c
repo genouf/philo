@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:00 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/15 14:00:46 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 15:52:57 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ static	int	check_integer(char *str)
 	i = 0;
 	if (str[i] == '+')
 		i++;
-	while (str[i] == '0')
+	while (str[i] == '0' && str[i + 1])
 		i++;
-	if (str[i] == '\0')
-		return (1);
 	while (str[i])
 	{
 		if (!(str[i] >= '0' && str[i] <= '9'))
@@ -69,8 +67,16 @@ static t_fork	*init_fork_tab(int philo_num)
 	return (fork_tab);
 }
 
-static void	set_struct(char **argv, int argc, t_parsed *entry)
+static int	set_struct(char **argv, int argc, t_parsed *entry)
 {
+	if (ft_atoi(argv[1]) == 0 || ft_atoi(argv[1]) > 250)
+	{
+		if (ft_atoi(argv[1]) == 0)
+			printf("You can't have 0 philosopher !\n");
+		else
+			printf("Too many philosophers !\n");
+		return (1);
+	}
 	entry->philo_num = ft_atoi(argv[1]);
 	entry->time_to_die = ft_atoi(argv[2]);
 	entry->time_to_eat = ft_atoi(argv[3]);
@@ -79,6 +85,7 @@ static void	set_struct(char **argv, int argc, t_parsed *entry)
 		entry->philo_eat = ft_atoi(argv[5]);
 	else
 		entry->philo_eat = -1;
+	return (0);
 }
 
 int	entry_parse(char **argv, int argc, t_parsed *entry)
@@ -99,7 +106,8 @@ int	entry_parse(char **argv, int argc, t_parsed *entry)
 		i++;
 	}
 	init_struct(entry);
-	set_struct(argv, argc, entry);
+	if (set_struct(argv, argc, entry))
+		return (1);
 	entry->fork_tab = init_fork_tab(entry->philo_num);
 	if (entry->fork_tab == NULL)
 		return (1);

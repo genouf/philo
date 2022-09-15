@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:09 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/15 14:56:17 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 15:45:18 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ int	init_philo(t_group_philo *philos, t_parsed *entry)
 				&philos->philo[i]) != 0)
 		{
 			printf("Failed to create thread !\n");
-			emergency_join(philos->philo_thread, i);
-			free(philos->philo);
-			free_mutex_tab(entry);
+			pthread_mutex_unlock(&entry->mass_start);
+			free_global(philos, entry);
 			return (1);
 		}
 		i++;
@@ -75,7 +74,7 @@ int	init_philo(t_group_philo *philos, t_parsed *entry)
 	return (0);
 }
 
-static void	free_global(t_group_philo *philos, t_parsed *entry)
+void	free_global(t_group_philo *philos, t_parsed *entry)
 {
 	pthread_mutex_destroy(&entry->m_print);
 	pthread_mutex_destroy(&entry->mass_start);
