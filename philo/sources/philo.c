@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:16 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/15 10:49:58 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 12:15:47 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	check_death(t_group_philo *philos, t_parsed *entry)
 			philos->philo[i].alive = 0;
 			pthread_mutex_unlock(&philos->philo[i].m_eat);
 			pthread_mutex_unlock(&entry->mass_start);
+			pthread_mutex_lock(&entry->master_eat);
 			entry->ph_finished = 1;
+			pthread_mutex_unlock(&entry->master_eat);
 			philo_print("died", &philos->philo[i]);
 			return ;
 		}

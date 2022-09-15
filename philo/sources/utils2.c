@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 14:37:37 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 16:08:43 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 11:01:58 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ char	*ft_itoa(int n)
 	}
 	result = (char *)malloc(sizeof(char) * i);
 	if (result == NULL)
+	{
+		printf("Malloc failed !\n");
 		return (NULL);
+	}
 	if (tmp == 0)
 	{
 		result[0] = '0';

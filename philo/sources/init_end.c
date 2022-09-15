@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:09 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 16:41:13 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 12:03:34 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	malloc_philo(t_group_philo *philos, t_parsed *entry)
 		return (1);
 	}
 	philos->philo = (t_philo *)malloc(sizeof(t_philo) * entry->philo_num);
-	if (philos->philo_thread == NULL)
+	if (philos->philo == NULL)
 	{
 		printf("Malloc failed !\n");
 		free_mutex_tab(entry);
@@ -76,6 +76,16 @@ int	init_philo(t_group_philo *philos, t_parsed *entry)
 	return (0);
 }
 
+static void	free_global(t_group_philo *philos, t_parsed *entry)
+{
+	pthread_mutex_destroy(&entry->m_print);
+	pthread_mutex_destroy(&entry->mass_start);
+	pthread_mutex_destroy(&entry->master_eat);
+	free_mutex_tab(entry);
+	free(philos->philo_thread);
+	free(philos->philo);
+}
+
 int	end_philo(t_group_philo *philos, t_parsed *entry)
 {
 	int	i;
@@ -83,6 +93,7 @@ int	end_philo(t_group_philo *philos, t_parsed *entry)
 	i = 0;
 	while (i < entry->philo_num)
 	{
+		pthread_mutex_destroy(&philos->philo->m_eat);
 		if (pthread_join(philos->philo_thread[i], NULL) != 0)
 		{
 			printf("Failed to join thread !\n");
@@ -93,8 +104,6 @@ int	end_philo(t_group_philo *philos, t_parsed *entry)
 		}
 		i++;
 	}
-	free_mutex_tab(entry);
-	free(philos->philo_thread);
-	free(philos->philo);
+	free_global(philos, entry);
 	return (0);
 }

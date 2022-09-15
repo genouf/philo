@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:00 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 16:18:01 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 11:04:32 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ int	entry_parse(char **argv, int argc, t_parsed *entry)
 	{
 		if (check_integer(argv[i]) || checker_integer(argv[i]))
 		{
-			printf("Bad argument !\n");
+			if (check_integer(argv[i]) == 2)
+				printf("Malloc failed !\n");
+			else
+				printf("Bad argument !\n");
 			return (1);
 		}
 		i++;

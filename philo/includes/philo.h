@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:42 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 16:17:27 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 11:06:20 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void		emergency_join(pthread_t *philo_thread, int i);
 long		ft_atoi(const char *str);
 int			philo_print(char *msg, t_philo *philo);
 int			check_alive(t_philo *philo);
-int			ft_ucheck(long int time_in_ms, t_philo *philo);
 int			ft_strcmp(char *s1, char *s2);
 /*			UTILS 2			*/
 char		*ft_itoa(int n);
@@ -95,8 +94,8 @@ char		*ft_itoa(int n);
 /*			MUTEX			*/
 int			lock_fork(t_philo *philo, t_fork *fork);
 void		unlock_fork(t_fork *fork);
-void		unlock_all(t_group_philo *philos, t_parsed *entry);
 int			check_fork(t_philo *philo, t_fork *fork);
 int			check_alive(t_philo *philo);
+int			ft_ucheck(long int time_in_ms, t_philo *philo);
 
 #endif
