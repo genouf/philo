@@ -20,7 +20,7 @@ SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 INC = -I includes
 
-CC = gcc
+CC = cc
 FLAGS = -Wall -Wextra -Werror -g
 LIBS = -lpthread
 RM = @rm -rf
