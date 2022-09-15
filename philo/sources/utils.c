@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:33 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 15:44:25 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 09:35:33 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,14 @@ int	philo_print(char *msg, t_philo *philo)
 
 int	ft_ucheck(long int time_in_ms, t_philo *philo)
 {
-	while (time_in_ms)
+	long int start;
+	
+	start = get_time();
+	while (get_time() - start < time_in_ms)
 	{
 		if (check_alive(philo))
 			return (1);
-		ft_usleep(1);
-		time_in_ms--;
+		usleep(30);
 	}
 	return (0);
 }

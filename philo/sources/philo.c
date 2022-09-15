@@ -6,7 +6,7 @@
 /*   By: genouf <genouf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 09:22:16 by genouf            #+#    #+#             */
-/*   Updated: 2022/09/14 15:50:55 by genouf           ###   ########.fr       */
+/*   Updated: 2022/09/15 09:09:02 by genouf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_death(t_group_philo *philos, t_parsed *entry)
 	{
 		pthread_mutex_lock(&philos->philo[i].m_eat);
 		if (get_time() - philos->philo[i].last_eat
-			>= philos->philo[i].entry->time_to_die)
+			>= philos->philo[i].entry->time_to_die && philos->philo[i].eat_count != 0)
 		{
 			philos->philo[i].alive = 0;
 			pthread_mutex_unlock(&philos->philo[i].m_eat);
